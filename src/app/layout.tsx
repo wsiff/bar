@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Burn After Reading — Zero-Knowledge Secret Sharing",
+  title: "Burn After Reading - Zero-Knowledge Secret Sharing",
   description:
-    "Share secrets that self-destruct after a single view. End-to-end encrypted with zero-knowledge architecture — the server never sees your data.",
+    "Share secrets that self-destruct after a single view. End-to-end encrypted with zero-knowledge architecture: the server never sees your data.",
   keywords: [
     "secret sharing",
     "burn after reading",
@@ -49,8 +49,13 @@ export default function RootLayout({
 
         {/* Footer */}
         <footer className="fixed bottom-0 left-0 right-0 z-10 border-t border-gunmetal/50 bg-void/80 backdrop-blur-sm">
-          <div className="mx-auto max-w-5xl px-4 py-3 flex items-center justify-between text-xs text-ash">
-            <span>Zero-knowledge encrypted &middot; Your secret never touches our servers</span>
+          <div className="mx-auto max-w-5xl px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-ash">
+            <span>
+              &copy; {new Date().getFullYear()} <strong className="text-smoke font-medium">Wasif A.K.A Clergyman</strong>
+            </span>
+            <span className="hidden md:inline text-ash/80">
+              Zero-knowledge &middot; Plaintext never touches our servers
+            </span>
             <span className="flex items-center gap-1.5">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-teal-success animate-pulse" />
               End-to-end encrypted

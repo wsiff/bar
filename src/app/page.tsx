@@ -137,7 +137,7 @@ export default function HomePage() {
             Secret Created Successfully
           </h1>
           <p className="text-smoke text-sm">
-            Share this link carefully — it can only be viewed{" "}
+            Share this link carefully - it can only be viewed{" "}
             <span className="text-ember-glow font-semibold">once</span>.
           </p>
         </div>
@@ -276,7 +276,7 @@ export default function HomePage() {
           <span className="text-cyan-accent font-medium">
             self-destruct
           </span>{" "}
-          after a single view. End-to-end encrypted — the server{" "}
+          after a single view. End-to-end encrypted: the server{" "}
           <span className="font-medium text-ghost">never</span> sees your data.
         </p>
       </div>
@@ -440,7 +440,7 @@ export default function HomePage() {
             {
               step: "02",
               title: "Fragment Isolation",
-              desc: "Decryption keys stay exclusively in the URL hash (#) — completely invisible to web servers.",
+              desc: "Decryption keys stay exclusively in the URL hash (#), completely invisible to web servers.",
             },
             {
               step: "03",
