@@ -10,6 +10,7 @@ import {
   Link2,
   AlertTriangle,
   Lock,
+  KeyRound,
   Eye,
   EyeOff,
   ChevronDown,
@@ -25,10 +26,14 @@ export default function HomePage() {
   const [state, setState] = useState<PageState>("compose");
   const [secret, setSecret] = useState("");
   const [ttl, setTtl] = useState(TTL_OPTIONS[0].value);
+  const [passphrase, setPassphrase] = useState("");
+  const [showPassphraseInput, setShowPassphraseInput] = useState(false);
+  const [showPassphraseText, setShowPassphraseText] = useState(false);
   const [shareUrl, setShareUrl] = useState("");
   const [copied, setCopied] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [charCount, setCharCount] = useState(0);
+  const [usedPassphrase, setUsedPassphrase] = useState(false);
 
   const MAX_CHARS = 50_000;
 
@@ -50,11 +55,18 @@ export default function HomePage() {
     setErrorMessage("");
 
     try {
-      // 1. Generate encryption key client-side
+      // 1. Generate AES-256-GCM URL link key client-side
       const keyBase64 = await generateKey();
 
-      // 2. Encrypt the secret in the browser
-      const encryptedPayload = await encryptMessage(secret, keyBase64);
+      // 2. Encrypt secret (with optional PBKDF2 passphrase layer)
+      const isPassProtected = showPassphraseInput && passphrase.trim().length > 0;
+      setUsedPassphrase(isPassProtected);
+
+      const encryptedPayload = await encryptMessage(
+        secret,
+        keyBase64,
+        isPassProtected ? passphrase.trim() : undefined
+      );
 
       // 3. Send ONLY the encrypted payload to the server
       const response = await fetch("/api/secrets", {
@@ -70,8 +82,7 @@ export default function HomePage() {
 
       const { id } = await response.json();
 
-      // 4. Build the share URL with the key in the hash fragment
-      //    The hash (#) is NEVER sent to the server
+      // 4. Build the share URL with the key in the hash fragment (#)
       const url = `${window.location.origin}/secret/${id}#${keyBase64}`;
       setShareUrl(url);
       setState("success");
@@ -81,7 +92,7 @@ export default function HomePage() {
       setErrorMessage(message);
       setState("error");
     }
-  }, [secret, ttl]);
+  }, [secret, ttl, showPassphraseInput, passphrase]);
 
   const handleCopy = useCallback(async () => {
     try {
@@ -89,7 +100,6 @@ export default function HomePage() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     } catch {
-      // Fallback for older browsers
       const textarea = document.createElement("textarea");
       textarea.value = shareUrl;
       document.body.appendChild(textarea);
@@ -104,10 +114,14 @@ export default function HomePage() {
   const handleReset = useCallback(() => {
     setState("compose");
     setSecret("");
+    setPassphrase("");
+    setShowPassphraseInput(false);
+    setShowPassphraseText(false);
     setShareUrl("");
     setCopied(false);
     setErrorMessage("");
     setCharCount(0);
+    setUsedPassphrase(false);
   }, []);
 
   // ─── Success State ────────────────────────────────────────────────────
@@ -130,11 +144,19 @@ export default function HomePage() {
 
         {/* Share URL Card */}
         <div className="glass-panel rounded-2xl p-6 mb-6 glow-border">
-          <div className="flex items-center gap-2 mb-3">
-            <Link2 className="w-4 h-4 text-cyan-accent" />
-            <span className="text-xs font-medium text-smoke uppercase tracking-wider">
-              One-Time Secret Link
-            </span>
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <Link2 className="w-4 h-4 text-cyan-accent" />
+              <span className="text-xs font-medium text-smoke uppercase tracking-wider">
+                One-Time Secret Link
+              </span>
+            </div>
+            {usedPassphrase && (
+              <span className="flex items-center gap-1 text-[11px] font-medium text-amber-warn bg-amber-warn/10 px-2.5 py-0.5 rounded-full border border-amber-warn/20">
+                <KeyRound className="w-3 h-3" />
+                Passphrase Protected
+              </span>
+            )}
           </div>
 
           <div className="relative group">
@@ -163,6 +185,24 @@ export default function HomePage() {
           )}
         </div>
 
+        {/* Passphrase Reminder Notice if configured */}
+        {usedPassphrase && (
+          <div className="glass-panel rounded-2xl p-5 mb-6 border border-amber-warn/20 bg-amber-warn/5">
+            <div className="flex gap-3">
+              <KeyRound className="w-5 h-5 text-amber-warn flex-shrink-0 mt-0.5" />
+              <div className="space-y-1 text-sm">
+                <p className="font-semibold text-amber-warn">
+                  Send Passphrase Separately
+                </p>
+                <p className="text-ghost text-xs leading-relaxed">
+                  The recipient must enter your custom passphrase to decrypt the payload.
+                  For maximum security, share the passphrase via a separate communication channel (e.g. Signal or SMS).
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Warnings */}
         <div className="glass-panel rounded-2xl p-5 mb-6 border border-ember/10">
           <div className="flex gap-3">
@@ -173,10 +213,8 @@ export default function HomePage() {
                 This link will self-destruct after being viewed once. There is no
                 way to recover the secret after it has been read.
               </p>
-              <p className="text-ash">
-                The encryption key is embedded in the URL hash fragment and is
-                never sent to the server. Only someone with this exact link can
-                decrypt the secret.
+              <p className="text-ash text-xs">
+                The encryption key lives in the URL hash fragment and is never sent to the server.
               </p>
             </div>
           </div>
@@ -186,7 +224,7 @@ export default function HomePage() {
         <div className="text-center">
           <button
             onClick={handleReset}
-            className="px-6 py-2.5 rounded-xl text-sm font-medium text-smoke hover:text-ivory border border-gunmetal hover:border-steel transition-all duration-200"
+            className="px-6 py-2.5 rounded-xl text-sm font-medium text-smoke hover:text-ivory border border-gunmetal hover:border-steel transition-all duration-200 cursor-pointer"
           >
             Create Another Secret
           </button>
@@ -212,7 +250,7 @@ export default function HomePage() {
         <div className="text-center">
           <button
             onClick={handleReset}
-            className="btn-primary px-8 py-3 rounded-xl text-sm"
+            className="btn-primary px-8 py-3 rounded-xl text-sm cursor-pointer"
           >
             Try Again
           </button>
@@ -247,8 +285,9 @@ export default function HomePage() {
       <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
         {[
           { icon: Lock, label: "AES-256-GCM" },
+          { icon: KeyRound, label: "PBKDF2 Dual-Layer" },
           { icon: Eye, label: "Zero-Knowledge" },
-          { icon: Flame, label: "Self-Destruct" },
+          { icon: Flame, label: "Atomic Burn" },
         ].map(({ icon: Icon, label }) => (
           <div
             key={label}
@@ -275,14 +314,14 @@ export default function HomePage() {
             id="secret-input"
             value={secret}
             onChange={handleSecretChange}
-            placeholder="Enter your secret message, password, API key, or sensitive data..."
+            placeholder="Enter your secret message, password, API key, or sensitive credentials..."
             rows={6}
             className="w-full bg-abyss rounded-xl p-4 text-sm text-ivory placeholder-steel border border-gunmetal/60 focus:border-cyan-accent/40 focus:outline-none focus:ring-1 focus:ring-cyan-accent/20 resize-none transition-all duration-200 font-mono"
           />
           <div className="flex items-center justify-between mt-2">
             <div className="flex items-center gap-1.5 text-xs text-ash">
               <EyeOff className="w-3 h-3" />
-              <span>Encrypted before leaving your browser</span>
+              <span>Encrypted client-side before submission</span>
             </div>
             <span
               className={`text-xs font-mono ${
@@ -294,8 +333,53 @@ export default function HomePage() {
           </div>
         </div>
 
+        {/* Optional Passphrase Toggle */}
+        <div className="mb-5 border-t border-gunmetal/40 pt-4">
+          <div className="flex items-center justify-between mb-3">
+            <button
+              type="button"
+              onClick={() => setShowPassphraseInput(!showPassphraseInput)}
+              className="flex items-center gap-2 text-xs font-medium text-smoke hover:text-ivory transition-colors cursor-pointer"
+            >
+              <KeyRound className="w-3.5 h-3.5 text-cyan-accent" />
+              <span>Optional Passphrase Protection</span>
+              <span className="text-[10px] text-cyan-accent font-semibold bg-cyan-accent/10 px-2 py-0.5 rounded-full border border-cyan-accent/20">
+                {showPassphraseInput ? "Enabled" : "Add Extra Security"}
+              </span>
+            </button>
+          </div>
+
+          {showPassphraseInput && (
+            <div className="animate-fade-in bg-abyss/60 rounded-xl p-4 border border-gunmetal/60 mb-2">
+              <div className="relative">
+                <input
+                  type={showPassphraseText ? "text" : "password"}
+                  value={passphrase}
+                  onChange={(e) => setPassphrase(e.target.value)}
+                  placeholder="Enter a secret passphrase known only to recipient..."
+                  className="w-full bg-abyss rounded-lg px-3.5 py-2.5 pr-10 text-sm text-ivory placeholder-steel border border-gunmetal/60 focus:border-cyan-accent/40 focus:outline-none focus:ring-1 focus:ring-cyan-accent/20"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassphraseText(!showPassphraseText)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-ash hover:text-ivory cursor-pointer"
+                >
+                  {showPassphraseText ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
+                </button>
+              </div>
+              <p className="text-[11px] text-ash mt-2 leading-relaxed">
+                Uses <strong>PBKDF2-HMAC-SHA256 (100k rounds)</strong>. The recipient must enter this passphrase to decrypt even if they possess the link.
+              </p>
+            </div>
+          )}
+        </div>
+
         {/* TTL Selector */}
-        <div className="mb-5">
+        <div className="mb-6">
           <label
             htmlFor="ttl-select"
             className="flex items-center gap-2 text-xs font-medium text-smoke uppercase tracking-wider mb-2"
@@ -325,7 +409,7 @@ export default function HomePage() {
           id="create-secret-btn"
           onClick={handleSubmit}
           disabled={!secret.trim() || state === "loading"}
-          className="btn-primary w-full py-3.5 rounded-xl text-sm flex items-center justify-center gap-2"
+          className="btn-primary w-full py-3.5 rounded-xl text-sm flex items-center justify-center gap-2 cursor-pointer"
         >
           {state === "loading" ? (
             <>
@@ -344,24 +428,24 @@ export default function HomePage() {
       {/* How It Works */}
       <div className="glass-panel rounded-2xl p-5">
         <h2 className="text-xs font-semibold text-smoke uppercase tracking-wider mb-4">
-          How It Works
+          How Zero-Knowledge Works
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
             {
               step: "01",
-              title: "Encrypt",
-              desc: "Your secret is encrypted in your browser with AES-256-GCM before anything leaves your device.",
+              title: "Client-Side Encrypt",
+              desc: "Encrypted directly in your browser with AES-256-GCM + optional PBKDF2 before sending.",
             },
             {
               step: "02",
-              title: "Share",
-              desc: "The decryption key lives only in the URL hash fragment — invisible to the server.",
+              title: "Fragment Isolation",
+              desc: "Decryption keys stay exclusively in the URL hash (#) — completely invisible to web servers.",
             },
             {
               step: "03",
-              title: "Burn",
-              desc: "The encrypted payload is atomically deleted from the server the moment it's retrieved.",
+              title: "Atomic Burn",
+              desc: "Redis GETDEL permanently destroys the ciphertext on first retrieval. No second chances.",
             },
           ].map(({ step, title, desc }) => (
             <div key={step} className="p-3 rounded-xl bg-abyss/60">
