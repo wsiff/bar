@@ -51,10 +51,10 @@ export default function RootLayout({
         <footer className="fixed bottom-0 left-0 right-0 z-10 border-t border-gunmetal/50 bg-void/80 backdrop-blur-sm">
           <div className="mx-auto max-w-5xl px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-ash">
             <span>
-              &copy; {new Date().getFullYear()} <strong className="text-smoke font-medium">Wasif A.K.A Clergyman</strong>
+              &copy; {new Date().getFullYear()} <strong className="text-smoke font-medium">Ozone A.K.A Clergyman</strong>
             </span>
             <span className="hidden md:inline text-ash/80">
-              Zero-knowledge &middot; Plaintext never touches our servers
+              Zero-knowledge &middot; Plaintext never touches the servers
             </span>
             <span className="flex items-center gap-1.5">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-teal-success animate-pulse" />

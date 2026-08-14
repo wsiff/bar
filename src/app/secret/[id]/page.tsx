@@ -216,7 +216,7 @@ export default function SecretViewPage() {
           <div className="flex gap-3">
             <Clock className="w-5 h-5 text-ash flex-shrink-0 mt-0.5" />
             <p className="text-sm text-ash leading-relaxed">
-              Zero residual traces remain on our infrastructure or in your browser memory.
+              Zero residual traces remain on the infrastructure or in your browser memory.
             </p>
           </div>
         </div>

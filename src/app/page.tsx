@@ -15,9 +15,12 @@ import {
   EyeOff,
   ChevronDown,
   Loader2,
+  Cpu,
+  Sparkles,
 } from "lucide-react";
 import { generateKey, encryptMessage } from "@/lib/crypto";
 import { TTL_OPTIONS } from "@/lib/constants";
+import TechnicalDeepDive from "@/components/TechnicalDeepDive";
 
 /** Possible states for the creation flow */
 type PageState = "compose" | "loading" | "success" | "error";
@@ -34,6 +37,7 @@ export default function HomePage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [charCount, setCharCount] = useState(0);
   const [usedPassphrase, setUsedPassphrase] = useState(false);
+  const [isDeepDiveOpen, setIsDeepDiveOpen] = useState(false);
 
   const MAX_CHARS = 50_000;
 
@@ -324,9 +328,8 @@ export default function HomePage() {
               <span>Encrypted client-side before submission</span>
             </div>
             <span
-              className={`text-xs font-mono ${
-                charCount > MAX_CHARS * 0.9 ? "text-ember" : "text-ash"
-              }`}
+              className={`text-xs font-mono ${charCount > MAX_CHARS * 0.9 ? "text-ember" : "text-ash"
+                }`}
             >
               {charCount.toLocaleString()} / {MAX_CHARS.toLocaleString()}
             </span>
@@ -426,11 +429,20 @@ export default function HomePage() {
       </div>
 
       {/* How It Works */}
-      <div className="glass-panel rounded-2xl p-5">
-        <h2 className="text-xs font-semibold text-smoke uppercase tracking-wider mb-4">
-          How Zero-Knowledge Works
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="glass-panel rounded-2xl p-5 mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xs font-semibold text-smoke uppercase tracking-wider">
+            How Zero-Knowledge Works
+          </h2>
+          <button
+            onClick={() => setIsDeepDiveOpen(true)}
+            className="flex items-center gap-1.5 text-xs text-cyan-accent hover:text-cyan-dim font-medium transition-colors cursor-pointer"
+          >
+            <Cpu className="w-3.5 h-3.5" />
+            <span>Technical Deep Dive</span>
+          </button>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
           {[
             {
               step: "01",
@@ -459,7 +471,27 @@ export default function HomePage() {
             </div>
           ))}
         </div>
+
+        {/* Deep Dive Action Bar */}
+        <button
+          onClick={() => setIsDeepDiveOpen(true)}
+          className="w-full py-2.5 px-4 rounded-xl bg-abyss/80 hover:bg-abyss border border-gunmetal/60 hover:border-cyan-accent/30 text-xs text-smoke hover:text-ivory flex items-center justify-between transition-all cursor-pointer"
+        >
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-accent" />
+            <span>Curious how it works under the hood? Read the cryptographic specifications.</span>
+          </div>
+          <span className="text-[11px] text-cyan-accent font-semibold flex items-center gap-1">
+            Explore Architecture &rarr;
+          </span>
+        </button>
       </div>
+
+      {/* Technical Deep Dive Modal */}
+      <TechnicalDeepDive
+        isOpen={isDeepDiveOpen}
+        onClose={() => setIsDeepDiveOpen(false)}
+      />
     </div>
   );
 }
