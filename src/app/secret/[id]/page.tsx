@@ -201,18 +201,18 @@ export default function SecretViewPage() {
   // ─── Burned / Destroyed State ─────────────────────────────────────────
   if (state === "burned") {
     return (
-      <div className="w-full max-w-xl animate-fade-in text-center">
-        <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-obsidian border border-ember/20 mb-6 ember-glow">
-          <ShieldOff className="w-10 h-10 text-ember" />
+      <div className="w-full max-w-xl animate-fade-in text-center px-1">
+        <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-obsidian border border-ember/20 mb-5 sm:mb-6 ember-glow">
+          <ShieldOff className="w-8 h-8 sm:w-10 sm:h-10 text-ember" />
         </div>
-        <h1 className="text-2xl font-bold text-ivory mb-3">
+        <h1 className="text-xl sm:text-2xl font-bold text-ivory mb-3">
           Secret Permanently Destroyed
         </h1>
-        <p className="text-smoke text-sm max-w-sm mx-auto mb-8 leading-relaxed">
+        <p className="text-smoke text-sm max-w-sm mx-auto mb-6 sm:mb-8 leading-relaxed">
           This secret was retrieved and erased from the server, expired due to TTL, or was wiped from active memory.
         </p>
 
-        <div className="glass-panel rounded-2xl p-5 mb-8 border border-ember/10 text-left">
+        <div className="glass-panel rounded-2xl p-4 sm:p-5 mb-6 sm:mb-8 border border-ember/10 text-left">
           <div className="flex gap-3">
             <Clock className="w-5 h-5 text-ash flex-shrink-0 mt-0.5" />
             <p className="text-sm text-ash leading-relaxed">
@@ -223,7 +223,7 @@ export default function SecretViewPage() {
 
         <a
           href="/"
-          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-medium text-smoke hover:text-ivory border border-gunmetal hover:border-steel transition-all duration-200"
+          className="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 rounded-xl text-sm font-medium text-smoke hover:text-ivory border border-gunmetal hover:border-steel transition-all duration-200"
         >
           <ArrowLeft className="w-4 h-4" />
           Create a New Secret
@@ -344,12 +344,12 @@ export default function SecretViewPage() {
         </div>
 
         {/* Auto-Wipe Countdown Banner */}
-        <div className="glass-panel rounded-xl p-3 mb-5 border border-amber-warn/20 flex items-center justify-between">
+        <div className="glass-panel rounded-xl p-3 mb-4 sm:mb-5 border border-amber-warn/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2 text-xs text-amber-warn font-medium">
-            <Timer className="w-4 h-4 animate-pulse" />
+            <Timer className="w-4 h-4 animate-pulse shrink-0" />
             <span>Auto-wiping memory in <strong>{timeLeft}s</strong></span>
           </div>
-          <div className="w-32 bg-abyss rounded-full h-1.5 overflow-hidden">
+          <div className="w-full sm:w-32 bg-abyss rounded-full h-1.5 overflow-hidden">
             <div
               className="bg-amber-warn h-full transition-all duration-1000 ease-linear"
               style={{ width: `${(timeLeft / 60) * 100}%` }}
@@ -358,8 +358,8 @@ export default function SecretViewPage() {
         </div>
 
         {/* Decrypted Content */}
-        <div className="glass-panel rounded-2xl p-6 mb-6 glow-border print:hidden">
-          <div className="flex items-center justify-between mb-3">
+        <div className="glass-panel rounded-2xl p-4 sm:p-6 mb-5 sm:mb-6 glow-border print:hidden">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 mb-3">
             <div className="flex items-center gap-2">
               <Lock className="w-4 h-4 text-teal-success" />
               <span className="text-xs font-medium text-smoke uppercase tracking-wider">
@@ -461,7 +461,7 @@ export default function SecretViewPage() {
       </p>
 
       {/* Warning Card */}
-      <div className="glass-panel rounded-2xl p-5 mb-8 border border-amber-warn/15 text-left">
+      <div className="glass-panel rounded-2xl p-4 sm:p-5 mb-6 sm:mb-8 border border-amber-warn/15 text-left">
         <div className="flex gap-3">
           <AlertTriangle className="w-5 h-5 text-amber-warn flex-shrink-0 mt-0.5" />
           <div className="space-y-2">

@@ -130,65 +130,66 @@ export default function TechnicalDeepDive({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-void/85 backdrop-blur-md animate-fade-in"
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-void/85 backdrop-blur-md animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-4xl max-h-[90vh] glass-panel rounded-3xl border border-gunmetal/80 shadow-2xl flex flex-col overflow-hidden text-ghost"
+        className="relative w-full sm:max-w-4xl h-full sm:h-auto sm:max-h-[90vh] glass-panel sm:rounded-3xl border-t sm:border border-gunmetal/80 shadow-2xl flex flex-col overflow-hidden text-ghost"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-gunmetal/60 bg-abyss/80">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-cyan-accent/10 border border-cyan-accent/20">
-              <Cpu className="w-5 h-5 text-cyan-accent" />
+        <div className="flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5 border-b border-gunmetal/60 bg-abyss/80">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <div className="p-2 sm:p-2.5 rounded-xl bg-cyan-accent/10 border border-cyan-accent/20 shrink-0">
+              <Cpu className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-accent" />
             </div>
-            <div>
-              <h2 className="text-lg font-bold text-ivory flex items-center gap-2">
-                Under The Hood: Cryptographic Architecture
+            <div className="min-w-0">
+              <h2 className="text-base sm:text-lg font-bold text-ivory flex items-center gap-2 truncate">
+                <span className="hidden sm:inline">Under The Hood:</span> Cryptographic Architecture
               </h2>
-              <p className="text-xs text-ash">
-                Zero-Knowledge Proof of Security and Technical Specifications
+              <p className="text-[11px] sm:text-xs text-ash truncate">
+                Zero-Knowledge Proof of Security
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-ash hover:text-ivory bg-obsidian/60 hover:bg-gunmetal border border-gunmetal/40 transition-colors cursor-pointer"
+            className="p-2 rounded-xl text-ash hover:text-ivory bg-obsidian/60 hover:bg-gunmetal border border-gunmetal/40 transition-colors cursor-pointer shrink-0 ml-2"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex border-b border-gunmetal/40 px-6 bg-abyss/40 overflow-x-auto">
+        <div className="flex border-b border-gunmetal/40 px-3 sm:px-6 bg-abyss/40 overflow-x-auto scrollbar-hide">
           {[
-            { id: "architecture", label: "End-to-End Pipeline", icon: Cpu },
-            { id: "threat-model", label: "Threat Model & Defense", icon: Shield },
-            { id: "crypto-code", label: "Web Crypto Code", icon: Code2 },
-            { id: "specifications", label: "Security Specs", icon: FileCode },
-          ].map(({ id, label, icon: Icon }) => (
+            { id: "architecture", label: "Pipeline", labelFull: "End-to-End Pipeline", icon: Cpu },
+            { id: "threat-model", label: "Threats", labelFull: "Threat Model & Defense", icon: Shield },
+            { id: "crypto-code", label: "Code", labelFull: "Web Crypto Code", icon: Code2 },
+            { id: "specifications", label: "Specs", labelFull: "Security Specs", icon: FileCode },
+          ].map(({ id, label, labelFull, icon: Icon }) => (
             <button
               key={id}
               onClick={() => setActiveTab(id as TabType)}
-              className={`flex items-center gap-2 py-3.5 px-4 text-xs font-semibold border-b-2 transition-all whitespace-nowrap cursor-pointer ${
+              className={`flex items-center gap-1.5 sm:gap-2 py-3 sm:py-3.5 px-2.5 sm:px-4 text-[11px] sm:text-xs font-semibold border-b-2 transition-all whitespace-nowrap cursor-pointer ${
                 activeTab === id
                   ? "border-cyan-accent text-cyan-accent bg-cyan-accent/5"
                   : "border-transparent text-smoke hover:text-ivory hover:border-steel"
               }`}
             >
-              <Icon className="w-4 h-4" />
-              {label}
+              <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="sm:hidden">{label}</span>
+              <span className="hidden sm:inline">{labelFull}</span>
             </button>
           ))}
         </div>
 
         {/* Modal Body Content */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
           {/* ─── TAB 1: ARCHITECTURE PIPELINE ─────────────────────── */}
           {activeTab === "architecture" && (
-            <div className="space-y-6 animate-fade-in">
-              <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
+            <div className="space-y-4 sm:space-y-6 animate-fade-in">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
                 {steps.map((step, idx) => {
                   const StepIcon = step.icon;
                   const isSelected = activeStep === idx;
@@ -291,12 +292,12 @@ export default function TechnicalDeepDive({
                     key={i}
                     className="p-4 rounded-2xl bg-abyss/60 border border-gunmetal/60 space-y-2"
                   >
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                       <h4 className="text-sm font-semibold text-ivory flex items-center gap-2">
-                        <AlertCircle className="w-4 h-4 text-cyan-accent" />
+                        <AlertCircle className="w-4 h-4 text-cyan-accent shrink-0" />
                         {item.threat}
                       </h4>
-                      <span className="text-[10px] font-mono font-bold uppercase px-2.5 py-0.5 rounded-full bg-teal-success/10 text-teal-success border border-teal-success/20">
+                      <span className="text-[10px] font-mono font-bold uppercase px-2.5 py-0.5 rounded-full bg-teal-success/10 text-teal-success border border-teal-success/20 shrink-0">
                         {item.status}
                       </span>
                     </div>
@@ -454,13 +455,13 @@ if (!encryptedPayload) return NextResponse.json({ error: "Burned" }, { status: 4
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 bg-abyss/80 border-t border-gunmetal/60 flex items-center justify-between text-xs text-ash">
-          <span>Zero-Knowledge Encryption Standard</span>
+        <div className="px-4 sm:px-6 py-3 sm:py-4 bg-abyss/80 border-t border-gunmetal/60 flex items-center justify-between text-xs text-ash">
+          <span className="hidden sm:inline">Zero-Knowledge Encryption Standard</span>
           <button
             onClick={onClose}
-            className="px-5 py-2 rounded-xl bg-gunmetal hover:bg-steel text-ivory font-medium transition-colors cursor-pointer"
+            className="px-5 py-2 rounded-xl bg-gunmetal hover:bg-steel text-ivory font-medium transition-colors cursor-pointer sm:ml-auto"
           >
-            Close Deep Dive
+            Close
           </button>
         </div>
       </div>

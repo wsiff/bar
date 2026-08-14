@@ -35,7 +35,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen antialiased">
+      <body className="antialiased flex flex-col min-h-screen">
         {/* Ambient background effects */}
         <div className="fixed inset-0 -z-10 overflow-hidden">
           <div className="absolute -top-40 -right-40 h-96 w-96 rounded-full bg-cyan-accent/5 blur-[120px]" />
@@ -43,12 +43,12 @@ export default function RootLayout({
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-violet-link/3 blur-[160px]" />
         </div>
 
-        <main className="relative z-0 flex min-h-screen flex-col items-center justify-center px-4 py-12">
+        <main className="relative z-0 flex flex-1 flex-col items-center justify-center px-4 sm:px-6 py-8 sm:py-12">
           {children}
         </main>
 
-        {/* Footer */}
-        <footer className="fixed bottom-0 left-0 right-0 z-10 border-t border-gunmetal/50 bg-void/80 backdrop-blur-sm">
+        {/* Footer - sticks to bottom via flex layout */}
+        <footer className="relative z-10 border-t border-gunmetal/50 bg-void/80 backdrop-blur-sm shrink-0">
           <div className="mx-auto max-w-5xl px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-ash">
             <span>
               &copy; {new Date().getFullYear()} <strong className="text-smoke font-medium">Ozone A.K.A Clergyman</strong>

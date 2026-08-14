@@ -131,13 +131,13 @@ export default function HomePage() {
   // ─── Success State ────────────────────────────────────────────────────
   if (state === "success") {
     return (
-      <div className="w-full max-w-2xl animate-fade-in">
+      <div className="w-full max-w-2xl animate-fade-in px-1">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-teal-success/10 border border-teal-success/20 mb-4">
-            <Check className="w-8 h-8 text-teal-success" />
+        <div className="text-center mb-6 sm:mb-8">
+          <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-teal-success/10 border border-teal-success/20 mb-3 sm:mb-4">
+            <Check className="w-7 h-7 sm:w-8 sm:h-8 text-teal-success" />
           </div>
-          <h1 className="text-2xl font-bold text-ivory mb-2">
+          <h1 className="text-xl sm:text-2xl font-bold text-ivory mb-2">
             Secret Created Successfully
           </h1>
           <p className="text-smoke text-sm">
@@ -147,8 +147,8 @@ export default function HomePage() {
         </div>
 
         {/* Share URL Card */}
-        <div className="glass-panel rounded-2xl p-6 mb-6 glow-border">
-          <div className="flex items-center justify-between mb-3">
+        <div className="glass-panel rounded-2xl p-4 sm:p-6 mb-5 sm:mb-6 glow-border">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
             <div className="flex items-center gap-2">
               <Link2 className="w-4 h-4 text-cyan-accent" />
               <span className="text-xs font-medium text-smoke uppercase tracking-wider">
@@ -164,14 +164,14 @@ export default function HomePage() {
           </div>
 
           <div className="relative group">
-            <div className="bg-abyss rounded-xl p-4 pr-14 border border-gunmetal/60 overflow-hidden">
-              <code className="text-sm text-cyan-accent/90 break-all font-mono leading-relaxed">
+            <div className="bg-abyss rounded-xl p-3 sm:p-4 pr-12 sm:pr-14 border border-gunmetal/60 overflow-hidden">
+              <code className="text-xs sm:text-sm text-cyan-accent/90 break-all font-mono leading-relaxed">
                 {shareUrl}
               </code>
             </div>
             <button
               onClick={handleCopy}
-              className="absolute top-1/2 right-3 -translate-y-1/2 p-2 rounded-lg bg-gunmetal/60 hover:bg-gunmetal text-ghost hover:text-ivory transition-all duration-200"
+              className="absolute top-1/2 right-2 sm:right-3 -translate-y-1/2 p-2 rounded-lg bg-gunmetal/60 hover:bg-gunmetal text-ghost hover:text-ivory transition-all duration-200"
               title="Copy link"
             >
               {copied ? (
@@ -265,17 +265,17 @@ export default function HomePage() {
 
   // ─── Compose State (Default) ──────────────────────────────────────────
   return (
-    <div className="w-full max-w-2xl animate-slide-up">
+    <div className="w-full max-w-2xl animate-slide-up px-1">
       {/* Brand Header */}
-      <div className="text-center mb-10">
-        <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-obsidian border border-gunmetal/60 mb-5 animate-pulse-glow">
-          <Flame className="w-10 h-10 text-ember-glow" />
+      <div className="text-center mb-6 sm:mb-10">
+        <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-obsidian border border-gunmetal/60 mb-4 sm:mb-5 animate-pulse-glow">
+          <Flame className="w-8 h-8 sm:w-10 sm:h-10 text-ember-glow" />
         </div>
-        <h1 className="text-4xl font-extrabold tracking-tight mb-3">
+        <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight mb-2 sm:mb-3">
           <span className="text-gradient-ember">Burn</span>{" "}
           <span className="text-ivory">After Reading</span>
         </h1>
-        <p className="text-smoke text-base max-w-md mx-auto leading-relaxed">
+        <p className="text-smoke text-sm sm:text-base max-w-md mx-auto leading-relaxed">
           Share secrets that{" "}
           <span className="text-cyan-accent font-medium">
             self-destruct
@@ -286,7 +286,7 @@ export default function HomePage() {
       </div>
 
       {/* Security Badges */}
-      <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
+      <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-6 sm:mb-8">
         {[
           { icon: Lock, label: "AES-256-GCM" },
           { icon: KeyRound, label: "PBKDF2 Dual-Layer" },
@@ -295,7 +295,7 @@ export default function HomePage() {
         ].map(({ icon: Icon, label }) => (
           <div
             key={label}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-obsidian/80 border border-gunmetal/40 text-xs text-smoke"
+            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-obsidian/80 border border-gunmetal/40 text-[11px] sm:text-xs text-smoke"
           >
             <Icon className="w-3 h-3 text-cyan-accent" />
             {label}
@@ -304,9 +304,9 @@ export default function HomePage() {
       </div>
 
       {/* Secret Input Card */}
-      <div className="glass-panel rounded-2xl p-6 mb-6 glow-border">
+      <div className="glass-panel rounded-2xl p-4 sm:p-6 mb-5 sm:mb-6 glow-border">
         {/* Textarea */}
-        <div className="relative mb-5">
+        <div className="relative mb-4 sm:mb-5">
           <label
             htmlFor="secret-input"
             className="flex items-center gap-2 text-xs font-medium text-smoke uppercase tracking-wider mb-2"
@@ -319,16 +319,16 @@ export default function HomePage() {
             value={secret}
             onChange={handleSecretChange}
             placeholder="Enter your secret message, password, API key, or sensitive credentials..."
-            rows={6}
-            className="w-full bg-abyss rounded-xl p-4 text-sm text-ivory placeholder-steel border border-gunmetal/60 focus:border-cyan-accent/40 focus:outline-none focus:ring-1 focus:ring-cyan-accent/20 resize-none transition-all duration-200 font-mono"
+            rows={5}
+            className="w-full bg-abyss rounded-xl p-3 sm:p-4 text-sm text-ivory placeholder-steel border border-gunmetal/60 focus:border-cyan-accent/40 focus:outline-none focus:ring-1 focus:ring-cyan-accent/20 resize-none transition-all duration-200 font-mono"
           />
-          <div className="flex items-center justify-between mt-2">
-            <div className="flex items-center gap-1.5 text-xs text-ash">
-              <EyeOff className="w-3 h-3" />
-              <span>Encrypted client-side before submission</span>
+          <div className="flex items-center justify-between mt-2 gap-2">
+            <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-ash min-w-0">
+              <EyeOff className="w-3 h-3 shrink-0" />
+              <span className="truncate">Encrypted client-side before submission</span>
             </div>
             <span
-              className={`text-xs font-mono ${charCount > MAX_CHARS * 0.9 ? "text-ember" : "text-ash"
+              className={`text-xs font-mono shrink-0 ${charCount > MAX_CHARS * 0.9 ? "text-ember" : "text-ash"
                 }`}
             >
               {charCount.toLocaleString()} / {MAX_CHARS.toLocaleString()}
@@ -429,8 +429,8 @@ export default function HomePage() {
       </div>
 
       {/* How It Works */}
-      <div className="glass-panel rounded-2xl p-5 mb-8">
-        <div className="flex items-center justify-between mb-4">
+      <div className="glass-panel rounded-2xl p-4 sm:p-5 mb-6 sm:mb-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-4">
           <h2 className="text-xs font-semibold text-smoke uppercase tracking-wider">
             How Zero-Knowledge Works
           </h2>
@@ -442,7 +442,7 @@ export default function HomePage() {
             <span>Technical Deep Dive</span>
           </button>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4">
           {[
             {
               step: "01",
@@ -475,14 +475,14 @@ export default function HomePage() {
         {/* Deep Dive Action Bar */}
         <button
           onClick={() => setIsDeepDiveOpen(true)}
-          className="w-full py-2.5 px-4 rounded-xl bg-abyss/80 hover:bg-abyss border border-gunmetal/60 hover:border-cyan-accent/30 text-xs text-smoke hover:text-ivory flex items-center justify-between transition-all cursor-pointer"
+          className="w-full py-2.5 px-3 sm:px-4 rounded-xl bg-abyss/80 hover:bg-abyss border border-gunmetal/60 hover:border-cyan-accent/30 text-xs text-smoke hover:text-ivory flex items-center justify-between gap-2 transition-all cursor-pointer"
         >
-          <div className="flex items-center gap-2">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-accent" />
-            <span>Curious how it works under the hood? Read the cryptographic specifications.</span>
+          <div className="flex items-center gap-2 min-w-0">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-accent shrink-0" />
+            <span className="truncate sm:whitespace-normal">Curious how it works under the hood?</span>
           </div>
-          <span className="text-[11px] text-cyan-accent font-semibold flex items-center gap-1">
-            Explore Architecture &rarr;
+          <span className="text-[11px] text-cyan-accent font-semibold flex items-center gap-1 shrink-0">
+            Explore &rarr;
           </span>
         </button>
       </div>
