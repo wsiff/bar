@@ -259,16 +259,16 @@ export default function TechnicalDeepDive({
                 </h4>
                 <div className="bg-abyss/80 rounded-xl p-4 font-mono text-[11px] text-ash space-y-2 border border-gunmetal/40 overflow-x-auto">
                   <p className="text-cyan-accent">
-                    [Sender Browser] --(AES-GCM-256)--> Ciphertext + Key(#)
+                    [Sender Browser] --(AES-GCM-256)-&gt; Ciphertext + Key(#)
                   </p>
                   <p className="text-ghost">
-                    [Sender Browser] --(POST Ciphertext Only)--> [Next.js Edge] --(SET EX ttl)--> [Upstash Redis]
+                    [Sender Browser] --(POST Ciphertext Only)-&gt; [Next.js Edge] --(SET EX ttl)-&gt; [Upstash Redis]
                   </p>
                   <p className="text-violet-link">
                     [Sender] ==(Shares URL with #key in Fragment)==&gt; [Recipient]
                   </p>
                   <p className="text-ember-glow">
-                    [Recipient] --(GET /api/secrets/id)--> [Next.js Edge] --(GETDEL)--> [Upstash Redis (Deleted!)]
+                    [Recipient] --(GET /api/secrets/id)-&gt; [Next.js Edge] --(GETDEL)-&gt; [Upstash Redis (Deleted!)]
                   </p>
                   <p className="text-teal-success">
                     [Recipient Browser] &lt;--(Decrypts in RAM with #key + Passphrase)-- Plaintext
