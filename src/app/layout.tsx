@@ -61,7 +61,7 @@ export default function RootLayout({
         <footer className="relative z-10 border-t border-gunmetal/50 bg-void/80 backdrop-blur-sm shrink-0">
           <div className="mx-auto max-w-5xl px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-ash">
             <span>
-              &copy; {new Date().getFullYear()} <strong className="text-smoke font-medium">Ozone A.K.A Clergyman</strong>
+              &copy; {new Date().getFullYear()} <strong className="text-smoke font-medium">No cookies were harmed in the making of this site.</strong>
             </span>
             <span className="hidden md:inline text-ash/80">
               Zero-knowledge &middot; Plaintext never touches the servers
