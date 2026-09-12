@@ -1,7 +1,17 @@
 {
-  "name": "clever-hypatia",
+  "name": "zkss",
   "version": "0.1.0",
-  "private": true,
+  "description": "Zero-knowledge, self-destructing secret sharing. Burn after reading.",
+  "author": "wsiff",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wsiff/zkss.git"
+  },
+  "homepage": "https://github.com/wsiff/zkss",
+  "bugs": {
+    "url": "https://github.com/wsiff/zkss/issues"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
