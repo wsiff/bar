@@ -1,4 +1,4 @@
-# 🔥 ZKSS - Burn After Reading
+# 🔥 BAR - Burn After Reading
 
 **Zero-knowledge, self-destructing secret sharing.** Share secrets that can only be viewed once, then vanish forever.
 
